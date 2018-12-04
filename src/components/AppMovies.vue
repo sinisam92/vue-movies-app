@@ -1,8 +1,13 @@
 <template>
   <div class="container">
-    <ul v-for="movie in filteredMovies" :key="movie.id">
-      <movies-row :movie="movie"/>
-    </ul>
+    <template v-if="filteredMovies.length">
+      <ul v-for="movie in filteredMovies" :key="movie.id">
+        <movies-row :movie="movie"/>
+      </ul>
+    </template>
+    <template v-else>
+      <h1 class="failed-search">We dont have the movie with that title in our archive</h1>
+    </template>
   </div>
 </template>
 
@@ -29,7 +34,6 @@ export default {
     Movies.getAll().then(response => {
       next(vm => {
         vm.movies = response.data;
-        console.log(vm.movies);
       });
     });
   },
@@ -46,5 +50,9 @@ export default {
 <style scoped>
 .row {
   margin-bottom: 5px;
+}
+.failed-search {
+  font-size: 60px;
+  color: firebrick;
 }
 </style>
