@@ -19,8 +19,8 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Services</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+            <li>
+                <movie-search></movie-search>
             </li>
           </ul>
         </div>
@@ -30,7 +30,13 @@
 </template>
 
 <script>
+
+import MovieSearch from './MovieSearch.vue'
+
 export default {
+    components: {
+       MovieSearch 
+    }
 
 }
 </script>

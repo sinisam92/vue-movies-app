@@ -1,6 +1,6 @@
 <template>
      <div class="container">
-        <div >
+       
         <div class="row">
             <div class="col-md-7">
             <a href="#">
@@ -15,8 +15,6 @@
                 <h6>{{ movie.duration }}</h6>
            
             </div>
-        </div>
-        <hr>
         </div>
         <hr>
     </div>
