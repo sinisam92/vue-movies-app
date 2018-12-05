@@ -7,6 +7,8 @@
       <ul v-for="movie in filteredMovies" :key="movie.id">
         <movies-row :movie="movie" @selected="movieSelected" :selected="selected"/>
       </ul>
+      <button @click="deselectAllMovies" class="btn btn-danger">Deselect All</button>
+      <button @click="selectAllMovies" class="btn btn-primary">Select All</button>
     </template>
     <template v-else>
       <h1 class="failed-search">We dont have the movie with that title in our archive</h1>
@@ -52,6 +54,14 @@ export default {
   methods: {
     movieSelected(movie) {
       this.numberOfSelectedMovies++;
+    },
+    selectAllMovies() {
+      this.selected = true;
+      this.numberOfSelectedMovies = this.movies.length;
+    },
+    deselectAllMovies() {
+      this.selected = false;
+      this.numberOfSelectedMovies = 0;
     }
   }
 };
@@ -68,5 +78,10 @@ export default {
 .num-of-selected-movies {
   font-size: 15px;
   color: tomato;
+}
+.btn {
+  float: right;
+  margin-bottom: 10px;
+  margin-left: 5px;
 }
 </style>

@@ -48,6 +48,6 @@ h6 {
   border-radius: 15px;
 }
 .selectedMovieBackgroundColor {
-  background-color: red;
+  background-color: navajowhite;
 }
 </style>
