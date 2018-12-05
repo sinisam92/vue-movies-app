@@ -1,11 +1,20 @@
 <template>
   <div class="container">
     <template v-if="filteredMovies.length">
+      <button @click="sortNameAsc" class="btn btn-light">Name Asc</button>
+      <button @click="sortNameDesc" class="btn btn-light">Name Desc</button>
+      <button @click="sortDurAsc" class="btn btn-light">Duration Asc</button>
+      <button @click="sortDurDesc" class="btn btn-light">Duration Desc</button>
       <template v-if="numberOfSelectedMovies">
         <p class="num-of-selected-movies">Selected Movies: {{numberOfSelectedMovies}}</p>
       </template>
       <ul v-for="movie in filteredMovies" :key="movie.id">
-        <movies-row :movie="movie" @selected="movieSelected" :selected="selected"/>
+        <movies-row
+          :movie="movie"
+          @selected="movieSelected"
+          :selected="selected"
+          :class="{ 'selectedMovieBackgroundColor' : selected }"
+        />
       </ul>
       <button @click="deselectAllMovies" class="btn btn-danger">Deselect All</button>
       <button @click="selectAllMovies" class="btn btn-primary">Select All</button>
@@ -52,7 +61,7 @@ export default {
     }
   },
   methods: {
-    movieSelected(movie) {
+    movieSelected() {
       this.numberOfSelectedMovies++;
     },
     selectAllMovies() {
@@ -62,6 +71,34 @@ export default {
     deselectAllMovies() {
       this.selected = false;
       this.numberOfSelectedMovies = 0;
+    },
+    sortNameAsc() {
+      this.movies.sort(function(a, b) {
+        var movieA = a.title.toLowerCase();
+        var movieB = b.title.toLowerCase();
+        return movieA < movieB ? -1 : movieA > movieB ? 1 : 0;
+      });
+    },
+    sortNameDesc() {
+      this.movies.sort(function(a, b) {
+        var movieA = a.title.toLowerCase();
+        var movieB = b.title.toLowerCase();
+        return movieA > movieB ? -1 : movieA < movieB ? 1 : 0;
+      });
+    },
+    sortDurAsc() {
+      this.movies.sort(function(a, b) {
+        var x = a.duration;
+        var y = b.duration;
+        return x - y;
+      });
+    },
+    sortDurDesc() {
+      this.movies.sort(function(a, b) {
+        var x = a.duration;
+        var y = b.duration;
+        return y - x;
+      });
     }
   }
 };
@@ -79,7 +116,8 @@ export default {
   font-size: 15px;
   color: tomato;
 }
-.btn {
+.btn-danger,
+.btn-primary {
   float: right;
   margin-bottom: 10px;
   margin-left: 5px;

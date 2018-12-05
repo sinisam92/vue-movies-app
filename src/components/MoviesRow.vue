@@ -1,15 +1,16 @@
 <template>
-  <div class="container" :class="{ 'selectedMovieBackgroundColor' : selected }">
+  <div class="container">
     <div class="row">
       <div class="col-md-7">
         <img class="img-fluid rounded mb-3 mb-md-0" :src="movie.imageUrl">
       </div>
       <div class="col-md-5">
+        <!-- {{movie.id}} -->
         <h2>{{ movie.title }}</h2>
         <h6>Director: {{ movie.director }}</h6>
         <h6>Release Year: {{ movie.releaseDate }}</h6>
         <h6>Genre: {{ movie.genre }}</h6>
-        <h6>Duration: {{ movie.duration }}</h6>
+        <h6>Duration: {{ movie.duration + ' ' + 'min'}}</h6>
         <button class="btn btn-info" @click.once="selectMovie">Select</button>
       </div>
     </div>
@@ -22,13 +23,10 @@ export default {
   props: {
     movie: {
       type: Object
-    },
-    selected: {
-      type: Boolean
     }
   },
   methods: {
-    selectMovie(id) {
+    selectMovie() {
       this.selected = true;
       this.$emit("selected", this.movie);
     }
