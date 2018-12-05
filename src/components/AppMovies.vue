@@ -1,8 +1,11 @@
 <template>
   <div class="container">
     <template v-if="filteredMovies.length">
+      <template v-if="numberOfSelectedMovies">
+        <p class="num-of-selected-movies">Selected Movies: {{numberOfSelectedMovies}}</p>
+      </template>
       <ul v-for="movie in filteredMovies" :key="movie.id">
-        <movies-row :movie="movie"/>
+        <movies-row :movie="movie" @selected="movieSelected" :selected="selected"/>
       </ul>
     </template>
     <template v-else>
@@ -19,7 +22,9 @@ export default {
   data() {
     return {
       movies: [],
-      term: ""
+      term: "",
+      numberOfSelectedMovies: 0,
+      selected: false
     };
   },
   components: {
@@ -43,6 +48,11 @@ export default {
         movie.title.toLowerCase().includes(this.term.toLowerCase())
       );
     }
+  },
+  methods: {
+    movieSelected(movie) {
+      this.numberOfSelectedMovies++;
+    }
   }
 };
 </script>
@@ -54,5 +64,9 @@ export default {
 .failed-search {
   font-size: 60px;
   color: firebrick;
+}
+.num-of-selected-movies {
+  font-size: 15px;
+  color: tomato;
 }
 </style>
