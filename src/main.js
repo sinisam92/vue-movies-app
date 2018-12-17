@@ -1,23 +1,10 @@
 import Vue from 'vue';
 import App from './App.vue';
-import VueRouter from 'vue-router';
-import AppMovies from './components/AppMovies.vue';
+import router from './router';
 
 Vue.config.productionTip = false;
 
-Vue.use(VueRouter);
-
 window.EventBus = new Vue();
-
-const routes = [
-  { path: '/', redirect: '/movies' },
-  { path: '/movies', component: AppMovies, name: 'movies' }
-];
-
-const router = new VueRouter({
-  mode: 'history',
-  routes
-});
 
 new Vue({
   router,

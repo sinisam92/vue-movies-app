@@ -7,6 +7,9 @@ class Movies {
   getAll() {
     return axios.get('movies');
   }
+  add(movie) {
+    return axios.post('movies', movie);
+  }
 }
 
 const movies = new Movies();

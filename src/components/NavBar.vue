@@ -16,18 +16,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home</a>
-            </li>
-            <li class="nav-item active">
+            <router-link class="nav-link active" to="/add">Add Movie</router-link>
+            <!-- <li class="nav-item active">
               <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li>
-              <movie-search></movie-search>
-            </li>
+            </li>-->
+            <movie-search v-if="['movies'].indexOf($route.name) > -1"></movie-search>
           </ul>
         </div>
       </div>

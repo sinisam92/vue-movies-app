@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Movies from "../service/Movies";
+import Movies from "./../services/movies-service";
 import MoviesRow from "./MoviesRow.vue";
 
 export default {
