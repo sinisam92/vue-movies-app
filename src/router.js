@@ -4,17 +4,26 @@ import VueRouter from 'vue-router';
 import AppMovies from './components/AppMovies';
 import AddMovie from './components/AddMovie';
 import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
 
 Vue.use(VueRouter);
 
 const routes = [
   { path: '/', redirect: '/movies' },
-  { path: '/movies', component: AppMovies, name: 'home' },
+  { path: '/movies', component: AppMovies, name: 'movies' },
   { path: '/add', component: AddMovie, name: 'add' },
   {
     path: '/login',
     component: Login,
     name: 'login',
+    meta: {
+      guest: true
+    }
+  },
+  {
+    path: '/register',
+    component: Register,
+    name: 'register',
     meta: {
       guest: true
     }
@@ -29,7 +38,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('token');
   if (isAuthenticated && to.meta.guest) {
-    return next({ name: 'home' });
+    return next({ name: 'movies' });
   }
   if (!isAuthenticated && !to.meta.guest) {
     return next({ name: 'login' });

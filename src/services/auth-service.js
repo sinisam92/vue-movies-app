@@ -9,12 +9,24 @@ class AuthService {
       })
       .then(({ data }) => data);
   }
+  register(name, email, password, password_confirmation) {
+    return http
+      .post('auth/register', {
+        name,
+        email,
+        password,
+        password_confirmation
+      })
+      .then(({ data }) => data)
+      .catch((error) => {
+        return Promise.reject(error.response.data.errors);
+      });
+  }
   setAuthHeaders(token) {
     if (!token) {
       delete http.defaults.headers.common['Authorization'];
-      return;
     }
-    http.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    return (http.defaults.headers.common['Authorization'] = `Bearer ${token}`);
   }
 }
 const checkForInitialToken = (authService) => {

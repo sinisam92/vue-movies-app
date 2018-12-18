@@ -2,7 +2,9 @@ import authService from './../services/auth-service';
 import router from './../router';
 
 const getUserFromLocalStorage = () => {
-  const user = localStorage.getItem('user');
+  let user = localStorage.getItem('user');
+  // console.log(JSON.parse(user));
+
   return JSON.parse(user);
 };
 
@@ -30,7 +32,7 @@ export default {
         localStorage.setItem('token', token);
         authService.setAuthHeaders(token);
         commit('SET_DATA', { user, token });
-        router.push({ name: nextRouteName || 'home' });
+        router.push({ name: nextRouteName || 'movies' });
       } catch (error) {
         commit(
           'SET_ERRORS',
@@ -44,6 +46,28 @@ export default {
       localStorage.removeItem('user');
       commit('SET_DATA', { user: null, token: null });
       router.push({ name: 'login' });
+    },
+    async register(
+      { commit },
+      { name, email, password, password_confirmation, nextRouteName }
+    ) {
+      try {
+        commit(
+          'SET_DATA',
+          await authService.register(
+            name,
+            email,
+            password,
+            password_confirmation
+          )
+        );
+        router.push({ name: nextRouteName || 'login' });
+      } catch (error) {
+        commit(
+          'SET_ERRORS',
+          error.response ? error.response.data.message : error
+        );
+      }
     }
   },
   getters: {

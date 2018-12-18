@@ -3,6 +3,7 @@
     <form class="form-signin" @submit.prevent="submitLogin">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
+      
       <input
         type="text"
         id="inputEmail"
@@ -12,8 +13,7 @@
         autofocus
         v-model="email"
       >
-      <form-error class="alertColor" v-if="error">{{ JSON.stringify(error) }}</form-error>
-      <label for="inputPassword" class="sr-only">Password</label>
+      <form-error v-if="error">{{ error }}</form-error>
       <input
         type="password"
         id="inputPassword"
@@ -22,7 +22,7 @@
         autocomplete="current-password"
         v-model="password"
       >
-      <form-error class="alertColor" v-if="error">{{ JSON.stringify(error) }}</form-error>
+      <form-error v-if="error">{{ error }}</form-error>
       <button class="btn btn-dark" type="submit">Sign in</button>
     </form>
   </div>
@@ -31,6 +31,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import FormErrors from "./../partials/FormErrors";
+
 export default {
   name: "Login",
   components: {
@@ -47,7 +48,7 @@ export default {
       this.login({
         email: this.email,
         password: this.password,
-        nextRouteName: "home"
+        nextRouteName: "movies"
       });
     },
     ...mapActions(["login"])
@@ -72,6 +73,6 @@ input {
   color: firebrick;
 }
 .btn-dark {
-  float: right;
+  margin-top: 30px;
 }
 </style>
