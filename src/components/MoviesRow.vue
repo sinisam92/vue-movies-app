@@ -6,7 +6,9 @@
       </div>
       <div class="col-md-5">
         <!-- {{movie.id}} -->
-        <h2>{{ movie.title }}</h2>
+        <router-link :to="{ name: 'movie', params: { id: movie.id }}">
+          <h2>{{ movie.title }}</h2>
+        </router-link>
         <h6>Director: {{ movie.director }}</h6>
         <h6>Release Year: {{ movie.releaseDate }}</h6>
         <h6>Genre: {{ movie.genre }}</h6>

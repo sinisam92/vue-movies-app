@@ -5,12 +5,21 @@ import AppMovies from './components/AppMovies';
 import AddMovie from './components/AddMovie';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
+import SingleMovie from './components/SingleMovie';
 
 Vue.use(VueRouter);
 
 const routes = [
   { path: '/', redirect: '/movies' },
   { path: '/movies', component: AppMovies, name: 'movies' },
+  {
+    path: '/movies/:id',
+    component: SingleMovie,
+    name: 'movie',
+    meta: {
+      auth: true
+    }
+  },
   { path: '/add', component: AddMovie, name: 'add' },
   {
     path: '/login',
@@ -40,7 +49,7 @@ router.beforeEach((to, from, next) => {
   if (isAuthenticated && to.meta.guest) {
     return next({ name: 'movies' });
   }
-  if (!isAuthenticated && !to.meta.guest) {
+  if (!isAuthenticated && to.meta.auth) {
     return next({ name: 'login' });
   }
   return next();
