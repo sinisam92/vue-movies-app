@@ -16,10 +16,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+            <p class="userName active nav-link" v-if="user">Welcome, {{ user.name }}</p>
+            <router-link class="nav-link active" to="/login" v-if="!user">Login</router-link>
+            <a class="nav-link active" @click="logoutOnClick" v-if="user">Logout</a>
             <router-link class="nav-link active" to="/add">Add Movie</router-link>
-            <!-- <li class="nav-item active">
-              <a class="nav-link" href="#">About</a>
-            </li>-->
             <movie-search v-if="['movies'].indexOf($route.name) > -1"></movie-search>
           </ul>
         </div>
@@ -30,13 +30,30 @@
 
 <script>
 import MovieSearch from "./MovieSearch.vue";
-
+import { mapGetters, mapActions } from "vuex";
 export default {
   components: {
     MovieSearch
+  },
+  methods: {
+    ...mapActions(["logout"]),
+    logoutOnClick() {
+      this.logout();
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: "getUser"
+    })
   }
 };
 </script>
 
 <style scoped>
+.navbar {
+  opacity: 0.5;
+}
+.userName {
+  color: white;
+}
 </style>

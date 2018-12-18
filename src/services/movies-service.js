@@ -1,14 +1,10 @@
-import axios from 'axios';
-
+import http from './http-service';
 class Movies {
-  constructor() {
-    axios.defaults.baseURL = 'http://localhost:8000/api/';
-  }
   getAll() {
-    return axios.get('movies');
+    return http.get('movies');
   }
   add(movie) {
-    return axios.post('movies', movie);
+    return http.post('movies', movie);
   }
 }
 
