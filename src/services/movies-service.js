@@ -1,7 +1,9 @@
 import http from './http-service';
 class Movies {
-  getAll() {
-    return http.get('movies');
+  getAll(title = '', take = 10, skip = 0) {
+    return http
+      .get('movies', { params: { title, take, skip } })
+      .then(({ data }) => data);
   }
   add(movie) {
     return http.post('movies', movie);

@@ -18,6 +18,13 @@
       </ul>
       <button @click="deselectAllMovies" class="btn btn-danger">Deselect All</button>
       <button @click="selectAllMovies" class="btn btn-primary">Select All</button>
+      <pagination
+        v-if="total >= take"
+        @previous="previousPage"
+        @next="nextPage"
+        :isFirst="firstPage"
+        :isLast="lastPage"
+      ></pagination>
     </template>
     <template v-else>
       <h1 class="failed-search">We dont have the movie with that title in our archive</h1>
@@ -28,28 +35,39 @@
 <script>
 import Movies from "./../services/movies-service";
 import MoviesRow from "./MoviesRow.vue";
+import Pagination from "./partials/Pagination.vue";
 
 export default {
   data() {
     return {
       movies: [],
       term: "",
+      take: 10,
+      skip: 0,
+      total: 0,
+      page: 1,
       numberOfSelectedMovies: 0,
       selected: false
     };
   },
   components: {
-    MoviesRow
+    MoviesRow,
+    Pagination
   },
   created() {
     window.EventBus.$on("search", term => {
-      this.term = term;
+      Movies.getAll(term).then(response => {
+        this.term = term;
+        this.movies = response.data;
+        this.total = response.total;
+      });
     });
   },
   beforeRouteEnter(to, from, next) {
     Movies.getAll().then(response => {
       next(vm => {
         vm.movies = response.data;
+        vm.total = response.total;
       });
     });
   },
@@ -58,6 +76,15 @@ export default {
       return this.movies.filter(movie =>
         movie.title.toLowerCase().includes(this.term.toLowerCase())
       );
+    },
+    firstPage() {
+      return this.page == 1;
+    },
+    lastPage() {
+      return this.page == this.numberOfPages;
+    },
+    numberOfPages() {
+      return Math.ceil(this.total / this.take);
     }
   },
   methods: {
@@ -98,6 +125,20 @@ export default {
         var x = a.duration;
         var y = b.duration;
         return y - x;
+      });
+    },
+    nextPage() {
+      this.page++;
+      this.skip += this.take;
+      Movies.getAll(this.term, this.take, this.skip).then(response => {
+        this.movies = response.data;
+      });
+    },
+    previousPage() {
+      this.page--;
+      this.skip -= this.take;
+      Movies.getAll(this.term, this.take, this.skip).then(response => {
+        this.movies = response.data;
       });
     }
   }
